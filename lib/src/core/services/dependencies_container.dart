@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 DependenciesContainer dependenciesContainer = DependenciesContainer();
 
@@ -10,17 +11,11 @@ class DependenciesContainer {
 
   DependenciesContainer._internal();
 
-  // LatLng? _currentPostion;
+  Offset? _switcherOffset;
 
-  // void init({
-  //   required LatLng position,
-  // }) {
-  //   _instance.registerPosition(position);
-  // }
+  void registerPosition(Offset position) {
+    _switcherOffset = position;
+  }
 
-  // void registerPosition(LatLng position) {
-  //   _currentPostion = position;
-  // }
-
-  // LatLng? get position => _currentPostion;
+  Offset? get position => _switcherOffset;
 }

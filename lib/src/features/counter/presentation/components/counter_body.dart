@@ -1,4 +1,4 @@
-part of '../counter.dart';
+part of '../../counter.dart';
 
 class CounterText extends StatelessWidget {
   final int count;
