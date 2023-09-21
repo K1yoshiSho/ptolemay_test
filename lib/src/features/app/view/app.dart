@@ -23,6 +23,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     _config = configMap[widget.environment]!;
+
     super.initState();
   }
 
@@ -43,7 +44,7 @@ class _AppState extends State<App> {
             themeMode: value.isDark ? ThemeMode.dark : ThemeMode.light,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const CounterPage(),
+            home: const CounterScreen(),
             builder: (context, child) {
               return MediaQuery(
                 data: MediaQuery.of(context).copyWith(
@@ -57,4 +58,8 @@ class _AppState extends State<App> {
       },
     );
   }
+}
+
+class CounterPage {
+  const CounterPage();
 }

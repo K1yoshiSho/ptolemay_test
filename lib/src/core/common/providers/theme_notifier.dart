@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ThemeNotifier extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
@@ -12,4 +13,13 @@ class ThemeNotifier extends ChangeNotifier {
       notifyListeners();
     });
   }
+}
+
+extension ThemeModeExtension on ThemeMode {
+  bool get isDark => this == ThemeMode.dark;
+  bool get isLight => this == ThemeMode.light;
+}
+
+extension ThemeNotifierExtension on BuildContext {
+  ThemeNotifier get themeNotifier => Provider.of(this, listen: false);
 }

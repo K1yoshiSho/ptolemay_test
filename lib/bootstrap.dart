@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:ptolemay_test/src/core/common/providers/theme_notifier.dart';
-import 'package:ptolemay_test/src/features/counter/bloc/counter_bloc.dart';
+import 'package:ptolemay_test/src/features/counter/state/counter_bloc/counter_bloc.dart';
+import 'package:ptolemay_test/src/features/counter/state/weather_bloc/weather_bloc_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -29,12 +30,17 @@ Future<void> bootstrap(Widget child) async {
   };
 
   Bloc.observer = const AppBlocObserver();
-  runApp(MultiProvider(providers: [
-    BlocProvider<CounterBloc>(
-      create: (_) => CounterBloc(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(),
-    ),
-  ], child: child),);
+  runApp(
+    MultiProvider(providers: [
+      BlocProvider<CounterBloc>(
+        create: (_) => CounterBloc(),
+      ),
+      BlocProvider<WeatherBloc>(
+        create: (_) => WeatherBloc(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ThemeNotifier(),
+      ),
+    ], child: child),
+  );
 }

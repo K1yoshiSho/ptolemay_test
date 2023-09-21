@@ -5,12 +5,12 @@ sealed class CounterState extends Equatable {
 
   @override
   List<Object> get props => [
-        CounterFetched,
+        CounterFetchedState,
       ];
 }
 
-final class CounterFetched extends CounterState {
-  const CounterFetched({
+final class CounterFetchedState extends CounterState {
+  const CounterFetchedState({
     required this.value,
   });
 
@@ -20,8 +20,8 @@ final class CounterFetched extends CounterState {
   List<Object> get props => [value];
 }
 
-final class CounterError extends CounterState {
-  const CounterError({
+final class CounterFailureState extends CounterState {
+  const CounterFailureState({
     required this.message,
     required this.lastValidValue,
     this.stackTrace,
