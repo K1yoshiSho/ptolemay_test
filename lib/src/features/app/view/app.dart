@@ -43,6 +43,9 @@ class _AppState extends State<App> {
           child: MaterialApp(
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
+            title: "Ptolemay",
+            onGenerateTitle: (context) => "Ptolemay",
+            locale: const Locale("en"),
             themeMode: value.isDark ? ThemeMode.dark : ThemeMode.light,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

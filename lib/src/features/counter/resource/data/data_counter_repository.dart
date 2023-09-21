@@ -7,10 +7,13 @@ class DataCounterRepository implements CounterRepository {
 
   @override
   Future<void> incrementCounter(IncrementEvent event, Emitter<CounterState> emit, CounterState state) async {
-    final int value = (state is CounterFetchedState) ? state.value + (event.isDark ? 2 : 1) : (state as CounterFailureState).lastValidValue;
+    final int valueForChange = (event.isDark ? 2 : 1);
+    final int value = (state is CounterFetchedState) ? state.value + valueForChange : (state as CounterFailureState).lastValidValue;
 
-    if (value < 10) {
+    if (value < 10 && value > 0) {
       emit(CounterFetchedState(value: value));
+    } else if (value == 0) {
+      emit(CounterFetchedState(value: value + valueForChange));
     } else {
       emit(const CounterFailureState(message: 'Max counter limit reached', lastValidValue: 10));
     }
@@ -18,10 +21,13 @@ class DataCounterRepository implements CounterRepository {
 
   @override
   Future<void> decrementCounter(DecrementEvent event, Emitter<CounterState> emit, CounterState state) async {
-    final int value = (state is CounterFetchedState) ? state.value - (event.isDark ? 2 : 1) : (state as CounterFailureState).lastValidValue;
+    final int valueForChange = (event.isDark ? 2 : 1);
+    final int value = (state is CounterFetchedState) ? state.value - valueForChange : (state as CounterFailureState).lastValidValue;
 
-    if (value > 0) {
+    if (value > 0 && value < 10) {
       emit(CounterFetchedState(value: value));
+    } else if (value == 10) {
+      emit(CounterFetchedState(value: value - valueForChange));
     } else {
       emit(const CounterFailureState(message: 'Min counter limit reached', lastValidValue: 0));
     }

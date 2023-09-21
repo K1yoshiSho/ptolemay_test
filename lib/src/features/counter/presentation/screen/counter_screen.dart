@@ -8,8 +8,6 @@ class CounterScreen extends StatefulWidget {
 }
 
 class CounterScreenState extends State<CounterScreen> {
-  Offset? switcherOffset;
-
   @override
   void initState() {
     super.initState();
@@ -40,21 +38,46 @@ class CounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final themeNotifier = context.themeNotifier;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           l10n.counterAppBarTitle,
           style: AppTextStyle.titleLarge500(context),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PtolemayTalkerScreen(
+                    appBarTitle: "Ptolemay Monitoring",
+                    theme: TalkerScreenTheme(
+                      backgroundColor: context.theme.appColors.background,
+                      textColor: context.theme.appColors.text,
+                    ),
+                    talker: dependenciesContainer.talker,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.monitor,
+            ),
+          ),
+        ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           BlocBuilder<WeatherBloc, WeatherState>(
             builder: (context, state) {
               if (state is WeatherBlocFetched) {
                 return Text(
-                  state.weatherData.country ?? "",
-                  style: AppTextStyle.titleLarge600(context),
+                  "Weather for ${state.weatherData.country}, ${state.weatherData.areaName} is ${state.weatherData.temperature?.celsius?.round()}°C (${state.weatherData.temperature?.fahrenheit?.round()}°F)",
+                  style: AppTextStyle.titleMedium600(context),
                 );
               } else if (state is WeatherBlocLoading) {
                 return const Center(
@@ -87,25 +110,23 @@ class CounterView extends StatelessWidget {
                   ),
                 );
               } else if (state is CounterFailureState) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        state.lastValidValue.toString(),
-                        style: AppTextStyle.titleLarge600(context).copyWith(
-                          fontSize: 60,
-                        ),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      state.lastValidValue.toString(),
+                      style: AppTextStyle.titleLarge600(context).copyWith(
+                        fontSize: 60,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        state.message,
-                        style: AppTextStyle.titleSmall400(context).copyWith(
-                          color: AppPalette.danger,
-                        ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      state.message,
+                      style: AppTextStyle.titleSmall400(context).copyWith(
+                        color: AppPalette.danger,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               } else {
                 return const SizedBox();

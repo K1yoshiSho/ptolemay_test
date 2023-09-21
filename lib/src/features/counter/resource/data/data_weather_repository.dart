@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ptolemay_test/src/core/services/dependencies_container.dart';
 import 'package:ptolemay_test/src/features/counter/resource/domain/weather_repository.dart';
 import 'package:ptolemay_test/src/features/counter/state/weather_bloc/weather_bloc_bloc.dart';
 import 'package:weather/weather.dart';
@@ -22,6 +23,7 @@ class DataWeatherRepository implements WeatherRepository {
           emit(WeatherBlocFailure(
             message: error.toString(),
           ));
+          dependenciesContainer.talker.handle(error);
         });
         emit(WeatherBlocFetched(weatherData: weatherData));
       } else {
@@ -33,6 +35,7 @@ class DataWeatherRepository implements WeatherRepository {
       emit(
         WeatherBlocFailure(message: e.toString(), stackTrace: st),
       );
+      dependenciesContainer.talker.handle(e, st);
     }
   }
 
