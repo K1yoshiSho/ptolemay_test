@@ -1,5 +1,5 @@
 # Ptolemay Test Application
-Test app for Ptolemay interview
+Test app for Ptolemay interview. I used BLoC for state management and Open Weather API for get information about weather fur current geolocation.
 
 ---
 
@@ -25,26 +25,6 @@ $ flutter run --flavor production --target lib/main_production.dart
 ```
 ---
 
-## Running Tests 🧪
-
-To run all unit and widget tests use the following command:
-
-```sh
-$ flutter test --coverage --test-randomize-ordering-seed random
-```
-
-To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
-
-```sh
-# Generate Coverage Report
-$ genhtml coverage/lcov.info -o coverage/
-
-# Open Coverage Report
-$ open coverage/index.html
-```
-
----
-
 ## Working with Translations 🌐
 
 This project relies on [flutter_localizations][flutter_localizations_link] and follows the [official internationalization guide for Flutter][internationalization_link].
@@ -57,9 +37,6 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 {
     "@@locale": "en",
     "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
 }
 ```
 
@@ -69,9 +46,6 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 {
     "@@locale": "en",
     "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    },
     "helloWorld": "Hello World",
     "@helloWorld": {
         "description": "Hello World Text"
@@ -101,7 +75,7 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
     <key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
-		<string>es</string>
+		<string>ru</string>
 	</array>
 
     ...
@@ -126,21 +100,15 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 {
     "@@locale": "en",
     "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
 }
 ```
 
-`app_es.arb`
+`app_ru.arb`
 
 ```arb
 {
-    "@@locale": "es",
-    "counterAppBarTitle": "Contador",
-    "@counterAppBarTitle": {
-        "description": "Texto mostrado en la AppBar de la página del contador"
-    }
+    "@@locale": "ru",
+    "counterAppBarTitle": "Cчетик",
 }
 ```
 
