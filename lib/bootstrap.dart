@@ -32,7 +32,7 @@ Future<void> bootstrap(Widget child) async {
     initHandling(talker: talker);
 
     dependenciesContainer.registerTalker(talker);
-
+    dependenciesContainer.talker.good('App is started :D');
     runApp(
       MultiProvider(providers: [
         BlocProvider<CounterBloc>(

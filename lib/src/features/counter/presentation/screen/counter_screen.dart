@@ -50,7 +50,7 @@ class CounterView extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => PtolemayTalkerScreen(
                     appBarTitle: "Ptolemay Monitoring",
                     theme: TalkerScreenTheme(
@@ -75,9 +75,16 @@ class CounterView extends StatelessWidget {
           BlocBuilder<WeatherBloc, WeatherState>(
             builder: (context, state) {
               if (state is WeatherBlocFetched) {
-                return Text(
-                  "Weather for ${state.weatherData.country}, ${state.weatherData.areaName} is ${state.weatherData.temperature?.celsius?.round()}°C (${state.weatherData.temperature?.fahrenheit?.round()}°F)",
-                  style: AppTextStyle.titleMedium600(context),
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Weather for ${state.weatherData.country}, ${state.weatherData.areaName} is ${state.weatherData.temperature?.celsius?.round()}°C (${state.weatherData.temperature?.fahrenheit?.round()}°F)",
+                      style: AppTextStyle.titleMedium600(context),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 );
               } else if (state is WeatherBlocLoading) {
                 return const Center(
@@ -137,11 +144,13 @@ class CounterView extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Stack(
+        key: null,
         children: [
           Positioned(
             bottom: 16 * 6,
             right: 16,
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () => context.read<CounterBloc>().add(IncrementEvent(isDark: themeNotifier.isDark)),
               child: const Icon(
                 Icons.add,
@@ -153,6 +162,7 @@ class CounterView extends StatelessWidget {
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () => context.read<CounterBloc>().add(DecrementEvent(isDark: themeNotifier.isDark)),
               child: const Icon(
                 Icons.remove,
@@ -175,6 +185,7 @@ class CounterView extends StatelessWidget {
             bottom: 16 * 6,
             left: 16,
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () {
                 context.read<WeatherBloc>().add(const GetWeatherInfo());
               },

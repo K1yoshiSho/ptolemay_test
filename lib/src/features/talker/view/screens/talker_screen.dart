@@ -50,11 +50,6 @@ class _PtolemayTalkerScreenState extends State<PtolemayTalkerScreen> {
         builder: (context, child) {
           return Scaffold(
             backgroundColor: widget.theme.backgroundColor,
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: theme.primaryColor,
-              onPressed: () => _showActionsBottomSheet(context),
-              child: const Icon(Icons.menu_rounded),
-            ),
             body: TalkerBuilder(
               talker: widget.talker,
               builder: (context, data) {
