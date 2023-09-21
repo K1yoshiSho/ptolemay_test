@@ -8,7 +8,9 @@ class CounterText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       '$count',
-      style: Theme.of(context).textTheme.displayLarge,
+      style: AppTextStyle.titleLarge600(context).copyWith(
+        fontSize: 60,
+      ),
     );
   }
 }

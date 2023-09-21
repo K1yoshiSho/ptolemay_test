@@ -15,8 +15,14 @@ class CounterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.counterAppBarTitle)),
+      appBar: AppBar(
+        title: Text(
+          l10n.counterAppBarTitle,
+          style: AppTextStyle.titleLarge500(context),
+        ),
+      ),
       body: BlocBuilder<CounterBloc, CounterState>(
         builder: (context, state) {
           if (state is CounterFetched) {
@@ -32,12 +38,16 @@ class CounterView extends StatelessWidget {
                 children: [
                   Text(
                     state.lastValidValue.toString(),
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: AppTextStyle.titleLarge600(context).copyWith(
+                      fontSize: 60,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     state.message,
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: AppTextStyle.titleSmall400(context).copyWith(
+                      color: AppPalette.danger,
+                    ),
                   ),
                 ],
               ),
@@ -47,18 +57,43 @@ class CounterView extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Stack(
         children: [
-          FloatingActionButton(
-            onPressed: () => context.read<CounterBloc>().add(const Increment(isDark: false)),
-            child: const Icon(Icons.add),
+          Positioned(
+            bottom: 16 * 5,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: () => context.read<CounterBloc>().add(Increment(isDark: context.read<ThemeNotifier>().isDark)),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
           ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            onPressed: () => context.read<CounterBloc>().add(const Decrement(isDark: false)),
-            child: const Icon(Icons.remove),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: FloatingActionButton(
+              onPressed: () {
+                Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
+              },
+              child: Icon(
+                context.read<ThemeNotifier>().isDark ? Icons.wb_sunny : Icons.nightlight_round,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: () => context.read<CounterBloc>().add(Decrement(isDark: context.read<ThemeNotifier>().isDark)),
+              child: const Icon(
+                Icons.remove,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),

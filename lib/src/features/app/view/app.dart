@@ -1,31 +1,60 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptolemay_test/src/features/counter/bloc/counter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:ptolemay_test/src/core/common/providers/config_wrapper.dart';
+import 'package:ptolemay_test/src/core/common/providers/theme_notifier.dart';
+import 'package:ptolemay_test/src/core/configs/theme/app_theme.dart';
+import 'package:ptolemay_test/src/core/services/app_config.dart';
 import 'package:ptolemay_test/src/features/counter/counter.dart';
 import 'package:ptolemay_test/l10n/l10n.dart';
 
-class App extends StatelessWidget {
-  const App({super.key});
+class App extends StatefulWidget {
+  final Environment environment;
+  const App({super.key, required this.environment});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late final BaseConfig _config;
+
+  @override
+  void initState() {
+    _config = configMap[widget.environment]!;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
-        useMaterial3: true,
-      ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<CounterBloc>(
-            create: (_) => CounterBloc(),
+    return Consumer<ThemeNotifier>(
+      builder: (BuildContext context, value, Widget? child) {
+        return ConfigWrapper(
+          config: _config,
+          child: MaterialApp(
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: value.isDark ? ThemeMode.dark : ThemeMode.light,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const CounterPage(),
+            builder: (context, child) {
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: 1.0,
+                ),
+                child: child ?? const SizedBox(),
+              );
+            },
           ),
-        ],
-        child: const CounterPage(),
-      ),
+        );
+      },
     );
   }
 }
