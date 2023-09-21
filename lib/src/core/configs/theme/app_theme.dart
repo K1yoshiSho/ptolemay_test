@@ -3,6 +3,19 @@ import 'package:ptolemay_test/src/core/configs/styles/colors_extensions.dart';
 import 'package:ptolemay_test/src/core/configs/styles/palette.dart';
 import 'package:ptolemay_test/src/core/configs/styles/themes.dart';
 
+extension GlobalPaintBounds on BuildContext {
+  Rect? get globalPaintBounds {
+    final renderObject = findRenderObject();
+    final translation = renderObject?.getTransformTo(null).getTranslation();
+    if (translation != null && renderObject?.paintBounds != null) {
+      final offset = Offset(translation.x, translation.y);
+      return renderObject!.paintBounds.shift(offset);
+    } else {
+      return null;
+    }
+  }
+}
+
 class AppTheme {
   //
   // Light theme
